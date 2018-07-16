@@ -1,23 +1,36 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div>
+    <v-header></v-header>
+    <v-tab></v-tab>
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script type="text/ecmascript-6">
+  import header from 'components/header/header.vue';
+  import tab from 'components/tab/tab.vue';
+  const ERR_OK = 0;
+  export default {
+    data() {
+      return {
+        seller: {}
+      };
+    },
+    created() {
+      this.$http.get('/api/seller').then((response) => {
+        response = response.body;
+        if (response.errno === ERR_OK) {
+          this.seller = response.data;
+          console.log(this.seller);
+        }
+      });
+    },
+    components: {
+      'v-header': header,
+      'v-tab': tab
+    }
+  };
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" rel="stylesheet/stylus">
 </style>
