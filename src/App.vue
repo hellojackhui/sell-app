@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <v-tab></v-tab>
     <router-view></router-view>
   </div>

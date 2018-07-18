@@ -1,3 +1,7 @@
+body, html
+  line-height 1
+  font-weight 200
+  font-family 'PingFang FC', 'STHeitiSC-Light', 'Helvetica-Light',arial,sans-serifs
 @media (-webkit-device-pixel-ratio: 1.5),(device-pixel-ratio: 1.5)
   .border-1px
     &::after
@@ -10,3 +14,13 @@
     &::after
       -webkit-transform: scaleY(0.5)
       transform: scaleY(0.5)
+
+.clearfix
+  display inline-block
+  &:after
+    display block
+    content ''
+    height 0
+    line-height 0
+    clear both
+    visibility hidden
