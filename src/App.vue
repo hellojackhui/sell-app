@@ -13,7 +13,8 @@
   export default {
     data() {
       return {
-        seller: {}
+        seller: {},
+        goods: {}
       };
     },
     created() {
