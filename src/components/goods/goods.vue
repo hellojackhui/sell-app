@@ -28,19 +28,23 @@
                 <div class="price">
                   <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice >0">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cart-control :food="food"></cart-control>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shop-cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shop-cart>
+    <shop-cart :selectedFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" ref="shopcart"></shop-cart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
   import ShopCart from 'components/shopcart/shopcart';
+  import CartControl from 'components/cartcontrol/cartcontrol';
   const ERR_OK = 0;
   export default {
     props: {
@@ -74,6 +78,17 @@
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     mounted() {
@@ -88,10 +103,17 @@
           click: true
         });
         this.scroll2 = new BScroll(this.$refs.wrapper2, {
+          click: true,
           probeType: 3
         });
         this.scroll2.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y));
+        });
+      },
+      _drop(target) {
+        // 体验优化,异步执行下落动画
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target);
         });
       },
       _calculateHeight() {
@@ -110,7 +132,13 @@
       }
     },
     components: {
-      ShopCart
+      ShopCart,
+      CartControl
+    },
+    events: {
+     'add'(target) {
+        this._drop(target);
+  }
     }
   };
 </script>
@@ -219,4 +247,9 @@
               text-decoration line-through
               font-size 10px
               color rgb(147, 153, 159)
+          .cartcontrol-wrapper
+            position absolute
+            right 0
+            bottom 12px
+
 </style>

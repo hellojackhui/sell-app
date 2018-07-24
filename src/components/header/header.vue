@@ -215,13 +215,18 @@
       position fixed
       top 0
       left 0
-      z-index 100
+      z-index 1000
       width 100%
       height 100%
       overflow auto
       background rgba(7, 17, 27, 0.8)
+      backdrop-filter: blur(10px)
+      transform: translate3d(0, 0, 0)
+      opacity 1
       &.fade-enter, &.fade-leave-to
         transform: translate3d(0, 100%, 0)
+        opacity: 0
+        background: rgba(7, 17, 27, 0)
       &.fade-enter-active, &.fade-leave-active
         transition: all 0.5s
       .detail-wrapper
