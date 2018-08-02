@@ -221,10 +221,8 @@
       overflow auto
       background rgba(7, 17, 27, 0.8)
       backdrop-filter: blur(10px)
-      transform: translate3d(0, 0, 0)
       opacity 1
-      &.fade-enter, &.fade-leave-to
-        transform: translate3d(0, 100%, 0)
+      &.fade-enter, &.fade-leave-active
         opacity: 0
         background: rgba(7, 17, 27, 0)
       &.fade-enter-active, &.fade-leave-active

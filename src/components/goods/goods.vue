@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="goods">
     <div class="left-wrapper" ref="wrapper1">
       <ul>
@@ -15,7 +16,7 @@
         <li v-for="item in goods" :key="item" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" :key="food" class="food-item">
+            <li v-for="food in item.foods" :key="food" class="food-item" @click="selectFood(food, $event)">
               <div class="icon">
                 <img :src="food.icon" width="57px" height="57px">
               </div>
@@ -39,12 +40,15 @@
     </div>
     <shop-cart :selectedFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" ref="shopcart"></shop-cart>
   </div>
+  <food :food="selectedFood" ref="food"></food>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
   import ShopCart from 'components/shopcart/shopcart';
   import CartControl from 'components/cartcontrol/cartcontrol';
+  import Food from 'components/food/food';
   const ERR_OK = 0;
   export default {
     props: {
@@ -56,7 +60,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        selectedFood: {}
       };
     },
     created() {
@@ -98,6 +103,14 @@
       });
     },
     methods: {
+      selectFood(food, event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.selectedFood = food;
+        console.log(this.selectedFood);
+        this.$refs.food.show();
+      },
       _scroll() {
         this.scroll = new BScroll(this.$refs.wrapper1, {
           click: true
@@ -126,6 +139,9 @@
         }
       },
       selectMenu(index) {
+        if (!event._constructed) {
+          return;
+        }
         let foodList = this.$refs.wrapper2.getElementsByClassName('food-list-hook');
         let el = foodList[index];
         this.scroll2.scrollToElement(el, 300);
@@ -133,7 +149,8 @@
     },
     components: {
       ShopCart,
-      CartControl
+      CartControl,
+      Food
     },
     events: {
      'add'(target) {
